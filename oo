@@ -29,18 +29,20 @@ public class HistoricalFactsApp extends JFrame {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Random rand = new Random();
-                int randomIndex = rand.nextInt(factLabels.size());
+                if (!factLabels.isEmpty()) {
+                    Random rand = new Random();
+                    int randomIndexToRemove = rand.nextInt(factLabels.size());
+                    int randomIndexToAdd = rand.nextInt(historicalFacts.size());
 
-                String newFact = "New Fact";
-                JLabel newLabel = new JLabel(newFact);
+                    JLabel newLabel = new JLabel(historicalFacts.get(randomIndexToAdd));
 
-                remove(factLabels.get(randomIndex));
-                factLabels.set(randomIndex, newLabel);
-                add(newLabel);
+                    remove(factLabels.get(randomIndexToRemove));
+                    factLabels.set(randomIndexToRemove, newLabel);
+                    add(newLabel);
 
-                revalidate();
-                repaint();
+                    revalidate();
+                    repaint();
+                }
             }
         });
         add(button);
