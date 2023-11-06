@@ -1,0 +1,57 @@
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+public class HistoricalFactsApp extends JFrame {
+    private List<String> historicalFacts;
+    private List<JLabel> factLabels;
+    private JButton button;
+
+    public HistoricalFactsApp() {
+        historicalFacts = new ArrayList<>();
+        historicalFacts.add("Fact 1");
+        historicalFacts.add("Fact 2");
+        historicalFacts.add("Fact 3");
+        historicalFacts.add("Fact 4");
+        historicalFacts.add("Fact 5");
+
+        factLabels = new ArrayList<>();
+        for (String fact : historicalFacts) {
+            JLabel label = new JLabel(fact);
+            factLabels.add(label);
+            add(label);
+        }
+
+        button = new JButton("Next Fact");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Random rand = new Random();
+                int randomIndex = rand.nextInt(factLabels.size());
+
+                String newFact = "New Fact";
+                JLabel newLabel = new JLabel(newFact);
+
+                remove(factLabels.get(randomIndex));
+                factLabels.set(randomIndex, newLabel);
+                add(newLabel);
+
+                revalidate();
+                repaint();
+            }
+        });
+        add(button);
+
+        setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new HistoricalFactsApp();
+    }
+}
