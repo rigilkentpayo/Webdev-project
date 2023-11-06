@@ -23,11 +23,12 @@ public class HistoricalFactsApp extends JFrame {
 
         factLabels = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            JLabel label = new JLabel(historicalFacts.get(i));
+            JLabel label = new JLabel();
             label.setAlignmentX(Component.CENTER_ALIGNMENT);
             factLabels.add(label);
             add(label);
         }
+        updateLabels();
 
         button = new JButton("Next Fact");
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -35,15 +36,17 @@ public class HistoricalFactsApp extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Random rand = new Random();
-                int randomIndexToRemove = rand.nextInt(factLabels.size());
-                int randomIndexToAdd = rand.nextInt(historicalFacts.size() - 5) + 5;
+                int randomIndexToRemove = rand.nextInt(5);
+                int randomIndexToAdd;
+                do {
+                    randomIndexToAdd = rand.nextInt(historicalFacts.size());
+                } while (factLabels.get(randomIndexToRemove).getText().equals(historicalFacts.get(randomIndexToAdd)));
 
                 JLabel newLabel = new JLabel(historicalFacts.get(randomIndexToAdd));
                 newLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-                remove(factLabels.get(randomIndexToRemove));
                 factLabels.set(randomIndexToRemove, newLabel);
-                add(newLabel);
+                updateLabels();
 
                 revalidate();
                 repaint();
@@ -56,6 +59,21 @@ public class HistoricalFactsApp extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null); // Center the JFrame on the screen
         setVisible(true);
+    }
+
+    private void updateLabels() {
+        for (int i = 0; i < 5; i++) {
+            String fact = factLabels.get(i).getText();
+            if (fact == null || fact.isEmpty()) {
+                Random rand = new Random();
+                int randomIndexToAdd;
+                do {
+                    randomIndexToAdd = rand.nextInt(historicalFacts.size());
+                } while (factLabels.stream().anyMatch(label -> label.getText().equals(historicalFacts.get(randomIndexToAdd))));
+
+                factLabels.get(i).setText(historicalFacts.get(randomIndexToAdd));
+            }
+        }
     }
 
     public static void main(String[] args) {
