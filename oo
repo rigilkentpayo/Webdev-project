@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -18,15 +19,18 @@ public class HistoricalFactsApp extends JFrame {
         historicalFacts.add("Fact 4");
         historicalFacts.add("Fact 5");
         historicalFacts.add("Fact 6");
+        historicalFacts.add("Fact 7");
 
         factLabels = new ArrayList<>();
         for (String fact : historicalFacts) {
             JLabel label = new JLabel(fact);
+            label.setAlignmentX(Component.CENTER_ALIGNMENT);
             factLabels.add(label);
             add(label);
         }
 
         button = new JButton("Next Fact");
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -36,6 +40,7 @@ public class HistoricalFactsApp extends JFrame {
                     int randomIndexToAdd = rand.nextInt(historicalFacts.size());
 
                     JLabel newLabel = new JLabel(historicalFacts.get(randomIndexToAdd));
+                    newLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
                     remove(factLabels.get(randomIndexToRemove));
                     factLabels.set(randomIndexToRemove, newLabel);
@@ -48,9 +53,10 @@ public class HistoricalFactsApp extends JFrame {
         });
         add(button);
 
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
+        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null); // Center the JFrame on the screen
         setVisible(true);
     }
 
