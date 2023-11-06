@@ -1,0 +1,71 @@
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+public class HistoricalFactsApp extends JFrame {
+    private List<String> historicalFacts;
+    private List<JLabel> factLabels;
+    private JButton button;
+
+    public HistoricalFactsApp() {
+        // List of historical facts
+        historicalFacts = new ArrayList<>();
+        historicalFacts.add("The Great Wall of China is over 13,000 miles long.");
+        historicalFacts.add("Leonardo da Vinci could write with one hand and draw with the other at the same time.");
+        historicalFacts.add("The oldest known city in the world is Jericho, which dates back to 8000 BCE.");
+        historicalFacts.add("Cleopatra lived closer in time to the Moon landing than to the construction of the Great Pyramid of Giza.");
+        historicalFacts.add("The shortest war in history was between Britain and Zanzibar on August 27, 1896. It lasted 38 minutes.");
+
+        // Initialize labels
+        factLabels = new ArrayList<>();
+        for (String fact : historicalFacts) {
+            JLabel label = new JLabel(fact);
+            label.setBounds(50, factLabels.size() * 30, 300, 30);
+            factLabels.add(label);
+            add(label);
+        }
+
+        // Initialize button
+        button = new JButton("Next Fact");
+        button.setBounds(50, 200, 100, 30);
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!factLabels.isEmpty()) {
+                    Random rand = new Random();
+                    int randomIndex = rand.nextInt(factLabels.size());
+
+                    // Remove a random label
+                    remove(factLabels.get(randomIndex));
+                    factLabels.remove(randomIndex);
+
+                    // Add a new label with a different fact
+                    if (!historicalFacts.isEmpty()) {
+                        String newFact = historicalFacts.remove(0);
+                        JLabel newLabel = new JLabel(newFact);
+                        newLabel.setBounds(50, factLabels.size() * 30, 300, 30);
+                        factLabels.add(newLabel);
+                        add(newLabel);
+                    }
+
+                    revalidate();
+                    repaint();
+                }
+            }
+        });
+        add(button);
+
+        // JFrame settings
+        setLayout(null);
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new HistoricalFactsApp();
+    }
+}
