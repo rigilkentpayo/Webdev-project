@@ -17,6 +17,7 @@ public class HistoricalFactsApp extends JFrame {
         historicalFacts.add("Fact 3");
         historicalFacts.add("Fact 4");
         historicalFacts.add("Fact 5");
+        historicalFacts.add("Fact 6");
 
         factLabels = new ArrayList<>();
         for (String fact : historicalFacts) {
