@@ -72,6 +72,7 @@ public class HistoricalFactsApp extends JFrame {
                 } while (factLabels.stream().anyMatch(label -> label.getText().equals(historicalFacts.get(randomIndexToAdd))));
 
                 factLabels.get(i).setText(historicalFacts.get(randomIndexToAdd));
+                add(factLabels.get(i)); // Added this line to add label to the JFrame
             }
         }
     }
