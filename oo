@@ -8,6 +8,7 @@ import java.util.Random;
 
 public class HistoricalFactsApp extends JFrame {
     private List<String> historicalFacts;
+    private List<String> displayedFacts;
     private List<JLabel> factLabels;
     private JButton button;
 
@@ -21,6 +22,8 @@ public class HistoricalFactsApp extends JFrame {
         historicalFacts.add("Fact 6");
         historicalFacts.add("Fact 7");
 
+        displayedFacts = new ArrayList<>();
+
         factLabels = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             JLabel label = new JLabel();
@@ -28,7 +31,6 @@ public class HistoricalFactsApp extends JFrame {
             factLabels.add(label);
             add(label);
         }
-        updateLabels();
 
         button = new JButton("Next Fact");
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -36,45 +38,42 @@ public class HistoricalFactsApp extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Random rand = new Random();
+
+                if (historicalFacts.isEmpty()) {
+                    JOptionPane.showMessageDialog(HistoricalFactsApp.this, "No more facts!");
+                    return;
+                }
+
                 int randomIndexToRemove = rand.nextInt(5);
-                int randomIndexToAdd;
-                do {
-                    randomIndexToAdd = rand.nextInt(historicalFacts.size());
-                } while (factLabels.get(randomIndexToRemove).getText().equals(historicalFacts.get(randomIndexToAdd)));
+                int randomIndexToAdd = rand.nextInt(historicalFacts.size());
 
-                JLabel newLabel = new JLabel(historicalFacts.get(randomIndexToAdd));
-                newLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                displayedFacts.remove(factLabels.get(randomIndexToRemove).getText());
+                displayedFacts.add(historicalFacts.get(randomIndexToAdd));
 
-                factLabels.set(randomIndexToRemove, newLabel);
-                updateLabels();
+                factLabels.get(randomIndexToRemove).setText(historicalFacts.get(randomIndexToAdd));
 
                 revalidate();
                 repaint();
             }
         });
-        add(button);
 
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+
+        // Add labels
+        for (int i = 0; i < 5; i++) {
+            JLabel label = new JLabel();
+            label.setAlignmentX(Component.CENTER_ALIGNMENT);
+            factLabels.add(label);
+            add(label);
+        }
+
+        // Add button
+        add(button);
+
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Center the JFrame on the screen
+        setLocationRelativeTo(null);
         setVisible(true);
-    }
-
-    private void updateLabels() {
-        for (int i = 0; i < 5; i++) {
-            String fact = factLabels.get(i).getText();
-            if (fact == null || fact.isEmpty()) {
-                Random rand = new Random();
-                int randomIndexToAdd;
-                do {
-                    randomIndexToAdd = rand.nextInt(historicalFacts.size());
-                } while (factLabels.stream().anyMatch(label -> label.getText().equals(historicalFacts.get(randomIndexToAdd))));
-
-                factLabels.get(i).setText(historicalFacts.get(randomIndexToAdd));
-                add(factLabels.get(i)); // Added this line to add label to the JFrame
-            }
-        }
     }
 
     public static void main(String[] args) {
