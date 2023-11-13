@@ -1,0 +1,82 @@
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class CaseConverterApp extends JFrame {
+    private JTextField inputTextField;
+    private JButton convertButton;
+    private JLabel resultLabel;
+
+    public CaseConverterApp() {
+        setTitle("Case Converter");
+        setSize(400, 150);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        initComponents();
+    }
+
+    private void initComponents() {
+        inputTextField = new JTextField();
+        convertButton = new JButton("Convert Case");
+        resultLabel = new JLabel("Result: ");
+
+        convertButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                convertCase();
+            }
+        });
+
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+
+        layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addComponent(inputTextField)
+                                .addComponent(convertButton)
+                                .addComponent(resultLabel))
+                        .addContainerGap(20, Short.MAX_VALUE))
+        );
+
+        layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(inputTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(convertButton)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(resultLabel)
+                        .addContainerGap(20, Short.MAX_VALUE))
+        );
+
+        pack();
+    }
+
+    private void convertCase() {
+        String inputText = inputTextField.getText();
+        StringBuilder result = new StringBuilder();
+
+        for (char c : inputText.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                result.append(Character.toLowerCase(c));
+            } else if (Character.isLowerCase(c)) {
+                result.append(Character.toUpperCase(c));
+            } else {
+                result.append(c);
+            }
+        }
+
+        resultLabel.setText("Result: " + result.toString());
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new CaseConverterApp().setVisible(true);
+            }
+        });
+    }
+}
