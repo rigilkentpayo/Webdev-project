@@ -1,87 +1,25 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+private void calculatePrice() {
+    int basePrice = 0;
 
-public class PizzaOrderApp {
-    private JFrame frame;
-    private JComboBox<String> sizeComboBox;
-    private JList<String> toppingsList;
-    private JTextArea priceTextArea;
-
-    private final String[] sizes = {"Small", "Medium", "Large", "Extra Large"};
-    private final String[] toppings = {"Cheese", "Pepperoni", "Mushrooms", "Onions", "Bell Peppers"};
-
-    private final int BASE_PRICE_SMALL = 300;
-    private final int BASE_PRICE_MEDIUM = 400;
-    private final int BASE_PRICE_LARGE = 500;
-    private final int BASE_PRICE_EXTRA_LARGE = 600;
-    private final int TOPPING_PRICE = 10;
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            new PizzaOrderApp().createAndShowGUI();
-        });
+    switch (sizeComboBox.getSelectedItem().toString()) {
+        case "Small":
+            basePrice = BASE_PRICE_SMALL;
+            break;
+        case "Medium":
+            basePrice = BASE_PRICE_MEDIUM;
+            break;
+        case "Large":
+            basePrice = BASE_PRICE_LARGE;
+            break;
+        case "Extra Large":
+            basePrice = BASE_PRICE_EXTRA_LARGE;
+            break;
     }
 
-    private void createAndShowGUI() {
-        frame = new JFrame("Pizza Order App");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    int toppingCount = toppingsList.getSelectedIndices().length;
 
-        JPanel panel = new JPanel(new GridLayout(4, 2));
+    // Subtracting the price of cheese (Cheese is free, so 0 price)
+    int totalPrice = basePrice + ((toppingCount - (toppingsList.getSelectedValue().equals("Cheese") ? 1 : 0)) * TOPPING_PRICE);
 
-        sizeComboBox = new JComboBox<>(sizes);
-        toppingsList = new JList<>(toppings);
-        priceTextArea = new JTextArea("Total Price: Php 0");
-        priceTextArea.setEditable(false);
-
-        JButton calculateButton = new JButton("Calculate Price");
-        calculateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                calculatePrice();
-            }
-        });
-
-        panel.add(new JLabel("Select Pizza Size:"));
-        panel.add(sizeComboBox);
-        panel.add(new JLabel("Select Toppings:"));
-        panel.add(new JScrollPane(toppingsList));
-        panel.add(calculateButton);
-        panel.add(priceTextArea);
-
-        frame.getContentPane().add(panel);
-        frame.setSize(400, 300);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
-
-    private void calculatePrice() {
-        int basePrice = 0;
-
-        switch (sizeComboBox.getSelectedItem().toString()) {
-            case "Small":
-                basePrice = BASE_PRICE_SMALL;
-                break;
-            case "Medium":
-                basePrice = BASE_PRICE_MEDIUM;
-                break;
-            case "Large":
-                basePrice = BASE_PRICE_LARGE;
-                break;
-            case "Extra Large":
-                basePrice = BASE_PRICE_EXTRA_LARGE;
-                break;
-        }
-
-        int toppingCount = toppingsList.getSelectedIndices().length;
-        int totalPrice = basePrice + (toppingCount * TOPPING_PRICE);
-
-        priceTextArea.setText("Total Price: Php " + totalPrice);
-    }
+    priceTextArea.setText("Total Price: Php " + totalPrice);
 }
