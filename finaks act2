@@ -7,10 +7,10 @@ class EmployeeException extends Exception {
 }
 
 class Employee {
-    private String idNum;
+    private int idNum;
     private double hourlyWage;
 
-    public Employee(String idNum, double hourlyWage) throws EmployeeException {
+    public Employee(int idNum, double hourlyWage) throws EmployeeException {
         if (hourlyWage < 100.0 || hourlyWage > 400.0) {
             throw new EmployeeException("Hourly wage must be between 100.00 and 400.00");
         }
@@ -26,7 +26,8 @@ public class EmployeeTest {
 
         for (int i = 1; i <= 4; i++) {
             System.out.println("Enter employee ID:");
-            String id = scanner.nextLine();
+            int id = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
 
             System.out.println("Enter hourly wage for employee " + i + ":");
             double wage = scanner.nextDouble();
