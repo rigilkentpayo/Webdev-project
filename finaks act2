@@ -1,0 +1,47 @@
+class EmployeeException extends Exception {
+    public EmployeeException(String message) {
+        super(message);
+    }
+}
+
+class Employee {
+    private String idNum;
+    private double hourlyWage;
+
+    public Employee(String idNum, double hourlyWage) throws EmployeeException {
+        if (hourlyWage < 100.0 || hourlyWage > 400.0) {
+            throw new EmployeeException("Hourly wage must be between 100.00 and 400.00");
+        }
+        this.idNum = idNum;
+        this.hourlyWage = hourlyWage;
+        System.out.println("Employee created successfully: ID " + idNum + ", Hourly Wage: " + hourlyWage);
+    }
+}
+
+public class EmployeeTest {
+    public static void main(String[] args) {
+        try {
+            Employee employee1 = new Employee("001", 90.0);
+        } catch (EmployeeException e) {
+            System.out.println("Failed to create employee: " + e.getMessage());
+        }
+
+        try {
+            Employee employee2 = new Employee("002", 150.0);
+        } catch (EmployeeException e) {
+            System.out.println("Failed to create employee: " + e.getMessage());
+        }
+
+        try {
+            Employee employee3 = new Employee("003", 300.0);
+        } catch (EmployeeException e) {
+            System.out.println("Failed to create employee: " + e.getMessage());
+        }
+
+        try {
+            Employee employee4 = new Employee("004", 500.0);
+        } catch (EmployeeException e) {
+            System.out.println("Failed to create employee: " + e.getMessage());
+        }
+    }
+}
