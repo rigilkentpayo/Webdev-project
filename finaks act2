@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 class EmployeeException extends Exception {
     public EmployeeException(String message) {
         super(message);
@@ -20,28 +22,22 @@ class Employee {
 
 public class EmployeeTest {
     public static void main(String[] args) {
-        try {
-            Employee employee1 = new Employee("001", 90.0);
-        } catch (EmployeeException e) {
-            System.out.println("Failed to create employee: " + e.getMessage());
-        }
+        Scanner scanner = new Scanner(System.in);
 
-        try {
-            Employee employee2 = new Employee("002", 150.0);
-        } catch (EmployeeException e) {
-            System.out.println("Failed to create employee: " + e.getMessage());
-        }
+        for (int i = 1; i <= 4; i++) {
+            System.out.println("Enter employee ID:");
+            String id = scanner.nextLine();
 
-        try {
-            Employee employee3 = new Employee("003", 300.0);
-        } catch (EmployeeException e) {
-            System.out.println("Failed to create employee: " + e.getMessage());
-        }
+            System.out.println("Enter hourly wage for employee " + i + ":");
+            double wage = scanner.nextDouble();
+            scanner.nextLine(); // Consume the newline character
 
-        try {
-            Employee employee4 = new Employee("004", 500.0);
-        } catch (EmployeeException e) {
-            System.out.println("Failed to create employee: " + e.getMessage());
+            try {
+                Employee employee = new Employee(id, wage);
+            } catch (EmployeeException e) {
+                System.out.println("Failed to create employee: " + e.getMessage());
+            }
         }
+        scanner.close();
     }
 }
